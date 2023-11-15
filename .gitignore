@@ -1,0 +1,33 @@
+# Ignore build output and temporary files
+bin/
+obj/
+Debug/
+Release/
+
+# Ignore Visual Studio specific files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore Visual Studio Code specific files
+.vscode/
+
+# Ignore Rider specific files
+.idea/
+
+# Ignore Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Ignore macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Ignore .NET specific files
+*.rsuser
+mono_crash.*
