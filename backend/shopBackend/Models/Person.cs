@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using shopBackend.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace shopBackend.Models
 {
-    public class Customer
+    public class Person
     {
         public int Id { get; set; }
         [Required]
@@ -18,6 +19,9 @@ namespace shopBackend.Models
         public string PhoneNumber { get; set; }
         [Required]
         public string Address { get; set; }
+
+        [Required]
+        public UserRole Role { get; set; }
         public ICollection<Order> Orders { get; set; }
     }
 }
