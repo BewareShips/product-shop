@@ -15,7 +15,7 @@ namespace shopBackend.Controllers
         {
             _productService = productService;
         }
-        [HttpGet]
+        [HttpGet("AllProducts")]
         public ActionResult<IEnumerable<Product>> GetAll()
         {
             var products = _productService.GetAllProducts();
