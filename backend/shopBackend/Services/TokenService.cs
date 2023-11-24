@@ -26,13 +26,19 @@ namespace shopBackend.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
-            claims: claims,
-            expires: DateTime.Now.AddMinutes(60),
-            signingCredentials: creds
-        );
-            return new JwtSecurityTokenHandler().WriteToken(token);
+                 issuer: _configuration["Jwt:Issuer"],
+                 audience: _configuration["Jwt:Audience"],
+                 claims: claims,
+                 expires: DateTime.Now.AddMinutes(60),
+                 signingCredentials: creds
+            );
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            if (string.IsNullOrEmpty(tokenString))
+            {
+                throw new InvalidOperationException("Token generation failed.");
+            }
+
+            return tokenString;
         }
 
     }

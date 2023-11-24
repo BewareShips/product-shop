@@ -1,4 +1,6 @@
-﻿using shopBackend.Models.Enums;
+﻿using shopBackend.Models;
+using shopBackend.Models.Enums;
+using shopBackend.Repository.Interfaces;
 using shopBackend.Services.Interfaces;
 
 namespace shopBackend.Services
@@ -16,14 +18,43 @@ namespace shopBackend.Services
             _userRepository = userRepository;
         }
 
-        public Task<string> Login(string email, string password)
+        public async Task<string> Login(string email, string password)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                throw new Exception("User was not found");
+            }
+            bool passwordMatches = _passwordHashService.VerifyPassword(user.Password, password);
+            if (!passwordMatches)
+            {
+                throw new UnauthorizedAccessException("Invalid email or password.");
+            }
+
+            try
+            {
+                return _tokenService.GenerateToken(user);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Failed to generate token.", ex);
+            }
         }
 
-        public Task Register(string firstName, string lastName, string email, string password, string address, UserRole role, string phoneNumber = null)
+        public async Task Register(string firstName, string lastName, string email, string password, string address, UserRole role, string phoneNumber = null)
         {
-            throw new NotImplementedException();
+            var hashedPassword = _passwordHashService.HashPassword(password);
+            var person = new Person
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                Password = hashedPassword,
+                Address = address,
+                Role = role,
+                PhoneNumber = phoneNumber
+            };
+            await _userRepository.AddUserAsync(person);
         }
     }
 }
