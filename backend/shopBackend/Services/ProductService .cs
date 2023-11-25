@@ -14,6 +14,24 @@ namespace shopBackend.Services
         {
             _productRepository = productRepository;
         }
+        private readonly List<Category> _categories = new List<Category>
+    {
+        new Category { Id = 1, Name = "Biscuits" },
+        new Category { Id = 2, Name = "Cakes" },
+        new Category { Id = 3, Name = "Vegetables" },
+        new Category { Id = 4, Name = "Fruits" },
+        new Category { Id = 5, Name = "Dairy" },
+        new Category { Id = 6, Name = "Beverages" },
+        new Category { Id = 7, Name = "Snacks" },
+        new Category { Id = 8, Name = "Bakery" },
+        new Category { Id = 9, Name = "Meat" },
+        new Category { Id = 10, Name = "Seafood" }
+    };
+
+        public IEnumerable<CategoryDto> GetAllCategories()
+        {
+            return _categories.Select(c => new CategoryDto { Id = c.Id, Name = c.Name }).ToList();
+        }
         public IEnumerable<ProductDto> GetAllProducts()
         {
             var products = _productRepository.GetAll();

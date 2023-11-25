@@ -22,6 +22,12 @@ namespace shopBackend.Controllers
             var products = _productService.GetAllProducts();
             return Ok(products);
         }
+        [HttpGet("AllCategorie")]
+        public ActionResult<IEnumerable<CategoryDto>> GetAllCategories()
+        {
+            var categories = _productService.GetAllCategories();
+            return Ok(categories);
+        }
         [HttpGet("{id}")]
         public ActionResult<ProductDto> GetById(int id)
         {

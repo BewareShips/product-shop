@@ -6,6 +6,7 @@ namespace shopBackend.Services.Interfaces
 {
     public interface IProductService
     {
+        IEnumerable<CategoryDto> GetAllCategories();
         IEnumerable<ProductDto> GetAllProducts();
         ProductDto GetProductById(int id);
         void CreateProduct(ProductDto product, UserRole role);
