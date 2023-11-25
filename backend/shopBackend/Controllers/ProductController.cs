@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using shopBackend.Models;
+using shopBackend.Models.Dto;
 using shopBackend.Models.Enums;
 using shopBackend.Services.Interfaces;
 
@@ -22,7 +23,7 @@ namespace shopBackend.Controllers
             return Ok(products);
         }
         [HttpGet("{id}")]
-        public ActionResult<Product> GetById(int id)
+        public ActionResult<ProductDto> GetById(int id)
         {
             var product = _productService.GetProductById(id);
             if(product == null)
@@ -32,10 +33,11 @@ namespace shopBackend.Controllers
             return Ok(product);
         }
         [HttpPost]
-        public ActionResult Create(Product product, [FromHeader(Name ="Role")] UserRole role)
+        public ActionResult Create(ProductDto product, [FromHeader(Name ="Role")] UserRole role)
         {
             try
             {
+                _productService.CreateProduct(product, role);
                 return CreatedAtAction(nameof(GetById), new { id = product.Id },product);
             }
             catch (Exception ex)
@@ -44,7 +46,7 @@ namespace shopBackend.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult Update(int id, Product product, [FromHeader(Name = "Role")] UserRole role)
+        public IActionResult Update(int id, ProductDto product, [FromHeader(Name = "Role")] UserRole role)
         {
             if (id != product.Id)
             {

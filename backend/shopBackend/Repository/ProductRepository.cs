@@ -1,4 +1,5 @@
-﻿using shopBackend.Data;
+﻿using Microsoft.AspNetCore.Authorization;
+using shopBackend.Data;
 using shopBackend.Models;
 using shopBackend.Repository.Interfaces;
 
@@ -20,17 +21,19 @@ namespace shopBackend.Repository
             return _context.Products.Find(id);
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         public void Add(Product product)
         {
             _context.Products.Add(product);
             _context.SaveChanges();
         }
+        [Authorize(Policy = "AdminPolicy")]
         public void Update(Product product)
         {
             _context.Products.Update(product);
             _context.SaveChanges();
         }
-
+        [Authorize(Policy = "AdminPolicy")]
         public void Delete(int id)
         {
             var product = _context.Products.Find(id);
@@ -40,5 +43,6 @@ namespace shopBackend.Repository
                 _context.SaveChanges();
             }
         }
+ 
     }
 }

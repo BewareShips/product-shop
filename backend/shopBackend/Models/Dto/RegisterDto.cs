@@ -1,7 +1,7 @@
 ﻿using shopBackend.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace shopBackend.Models
+namespace shopBackend.Models.Dto
 {
     public class RegisterDto
     {

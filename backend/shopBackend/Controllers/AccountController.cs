@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using shopBackend.Models;
+using shopBackend.Models.Dto;
 using shopBackend.Services.Interfaces;
 
 namespace shopBackend.Controllers
