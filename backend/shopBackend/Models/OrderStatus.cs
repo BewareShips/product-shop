@@ -8,7 +8,7 @@ namespace shopBackend.Models
         public int Id { get; set; }
         [Required]
         [StringLength(50)]
-        public OrderStatusEnum StatusName { get; set; }
+        public Enums.OrderStatusCategories StatusName { get; set; }
         public ICollection<Order>Orders { get; set; }
     }
 }

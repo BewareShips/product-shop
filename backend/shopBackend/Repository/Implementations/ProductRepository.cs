@@ -3,7 +3,7 @@ using shopBackend.Data;
 using shopBackend.Models;
 using shopBackend.Repository.Interfaces;
 
-namespace shopBackend.Repository
+namespace shopBackend.Repository.Implementations
 {
     public class ProductRepository : IProductRepository
     {
@@ -21,7 +21,7 @@ namespace shopBackend.Repository
             return _context.Products.Find(id);
         }
 
-        [Authorize(Policy = "AdminPolicy")]
+      
         public void Add(Product product)
         {
             _context.Products.Add(product);
@@ -43,6 +43,6 @@ namespace shopBackend.Repository
                 _context.SaveChanges();
             }
         }
- 
+
     }
 }

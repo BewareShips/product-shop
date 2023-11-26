@@ -15,7 +15,7 @@ namespace shopBackend.Models
         public int Quantity { get; set; }
         [Range(0.01, double.MaxValue)]
         public decimal UnitPrice { get; set; }
-        
+    
 
     }
 }

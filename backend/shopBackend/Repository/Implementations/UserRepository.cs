@@ -3,7 +3,7 @@ using shopBackend.Data;
 using shopBackend.Models;
 using shopBackend.Repository.Interfaces;
 
-namespace shopBackend.Repository
+namespace shopBackend.Repository.Implementations
 {
     public class UserRepository : IUserRepository
     {

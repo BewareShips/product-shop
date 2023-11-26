@@ -4,7 +4,7 @@ using shopBackend.Models.Enums;
 using shopBackend.Repository.Interfaces;
 using shopBackend.Services.Interfaces;
 
-namespace shopBackend.Services
+namespace shopBackend.Services.Implementations
 {
     public class ProductService : IProductService
     {
@@ -67,7 +67,7 @@ namespace shopBackend.Services
         }
         public void CreateProduct(ProductDto productDto, UserRole role)
         {
-            if(role != UserRole.Admin)
+            if (role != UserRole.Admin)
             {
                 throw new UnauthorizedAccessException("Only administrators can add products");
             }
@@ -81,7 +81,7 @@ namespace shopBackend.Services
                 UnitType = productDto.UnitType
             };
             ValidateProduct(product);
-            if(_productRepository.GetAll().Any(p =>p.Name == product.Name))
+            if (_productRepository.GetAll().Any(p => p.Name == product.Name))
             {
                 throw new Exception("A product with this name already exist");
             }
@@ -113,11 +113,11 @@ namespace shopBackend.Services
 
         public void DeleteProduct(int id, UserRole role)
         {
-           if(role != UserRole.Admin)
+            if (role != UserRole.Admin)
             {
                 throw new UnauthorizedAccessException("Only administrators can delete products.");
             }
-           var existingProduct = GetProductById(id);
+            var existingProduct = GetProductById(id);
             if (existingProduct == null)
             {
                 throw new KeyNotFoundException("Product not found.");
@@ -126,10 +126,10 @@ namespace shopBackend.Services
             _productRepository.Delete(id);
 
         }
-        public  void UpdateStockQuantity(int productId, decimal quantity)
+        public void UpdateStockQuantity(int productId, decimal quantity)
         {
             var product = _productRepository.GetById(productId);
-                if (product == null)
+            if (product == null)
             {
                 throw new KeyNotFoundException("Product not found.");
             }
@@ -140,10 +140,10 @@ namespace shopBackend.Services
             }
             else if (product.UnitType == UnitTypeEnum.Kilogram)
             {
-               product.StockQuantity += (int)Math.Round(quantity);
+                product.StockQuantity += (int)Math.Round(quantity);
             }
 
-             _productRepository.Update(product);
+            _productRepository.Update(product);
         }
 
         private void ValidateProduct(Product product)

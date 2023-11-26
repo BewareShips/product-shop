@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using shopBackend.Data;
 using shopBackend.Repository.Interfaces;
-using shopBackend.Repository;
 using shopBackend.Services.Interfaces;
-using shopBackend.Services;
 using System.Globalization;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using shopBackend.Repository.Implementations;
+using shopBackend.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +69,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
 });
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

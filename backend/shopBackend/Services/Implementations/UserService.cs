@@ -3,7 +3,7 @@ using shopBackend.Models.Enums;
 using shopBackend.Repository.Interfaces;
 using shopBackend.Services.Interfaces;
 
-namespace shopBackend.Services
+namespace shopBackend.Services.Implementations
 {
     public class UserService : IUserService
     {

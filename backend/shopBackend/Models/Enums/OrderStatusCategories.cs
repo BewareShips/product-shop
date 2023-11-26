@@ -1,6 +1,6 @@
 ﻿namespace shopBackend.Models.Enums
 {
-    public enum OrderStatusEnum
+    public enum OrderStatusCategories
     {
         New = 1,
         Processing = 2,
