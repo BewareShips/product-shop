@@ -26,6 +26,10 @@ namespace shopBackend.Services.Implementations
         public async Task CreateOrderAsync(CreateOrderDto createOrderDto)
         {
             var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            if (userId == null)
+            {
+                throw new UnauthorizedAccessException("User is not authenticated.");
+            }
 
             var order = new Order
             {
@@ -36,10 +40,10 @@ namespace shopBackend.Services.Implementations
 
             foreach (var item in createOrderDto.OrderItems)
             {
-                var product = await _productRepository.GetByIdAsync(item.ProductId);
+                var product = await _productRepository.GetByIdAsync(item.Id);
                 if (product == null)
                 {
-                    throw new KeyNotFoundException($"Product with ID {item.ProductId} not found.");
+                    throw new KeyNotFoundException($"Product with ID {item.Id} not found.");
                 }
 
                 var orderItem = new OrderItem
