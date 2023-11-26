@@ -4,8 +4,9 @@ namespace shopBackend.Repository.Interfaces
 {
     public interface IOrderRepository
     {
-        IEnumerable<Order> GetAll();
-        Order GetById(int id);
-        void Add(Order order);
+        Task<IEnumerable<Order>> GetAllAsync();
+        Task<Order> GetByIdAsync(int id);
+        Task AddAsync(Order order);
+
     }
 }

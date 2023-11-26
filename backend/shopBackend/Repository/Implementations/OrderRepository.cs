@@ -1,4 +1,5 @@
-﻿using shopBackend.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using shopBackend.Data;
 using shopBackend.Models;
 using shopBackend.Repository.Interfaces;
 
@@ -8,23 +9,31 @@ namespace shopBackend.Repository.Implementations
     {
 
         private readonly ShopContext _context;
+
         public OrderRepository(ShopContext context)
         {
             _context = context;
         }
-        public IEnumerable<Order> GetAll()
+
+        public async Task<IEnumerable<Order>> GetAllAsync()
         {
-            return _context.Orders.ToList();
+            return await _context.Orders.ToListAsync();
         }
 
-        public Order GetById(int id)
+        public async Task<Order> GetByIdAsync(int id) 
         {
-            return _context.Orders.Find(id); ;
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
+            {
+                throw new KeyNotFoundException($"Order with ID {id} not found.");
+            }
+            return order;
         }
-        public void Add(Order order)
+
+        public async Task AddAsync(Order order)
         {
-            _context.Orders.Add(order);
-            _context.SaveChanges();
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
         }
     }
 }

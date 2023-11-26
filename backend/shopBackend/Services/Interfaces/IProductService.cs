@@ -6,12 +6,12 @@ namespace shopBackend.Services.Interfaces
 {
     public interface IProductService
     {
-        IEnumerable<CategoryDto> GetAllCategories();
-        IEnumerable<ProductDto> GetAllProducts();
-        ProductDto GetProductById(int id);
-        void CreateProduct(ProductDto product, UserRole role);
-        void UpdateProduct(ProductDto product, UserRole role);
-        void DeleteProduct(int id, UserRole role);
-        void UpdateStockQuantity(int productId, decimal quantity);
+        Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync();
+        Task<IEnumerable<ProductDto>> GetAllProductsAsync();
+        Task<ProductDto> GetProductByIdAsync(int id);
+        Task CreateProductAsync(ProductDto product, UserRole role);
+        Task UpdateProductAsync(ProductDto product, UserRole role);
+        Task DeleteProductAsync(int id, UserRole role);
+        Task UpdateStockQuantityAsync(int productId, decimal quantity);
     }
 }

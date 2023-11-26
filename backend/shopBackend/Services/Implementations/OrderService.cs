@@ -13,22 +13,17 @@ namespace shopBackend.Services.Implementations
         private readonly IProductRepository _productRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public OrderService(IOrderRepository orderRepository, IProductRepository productRepository, IHttpContextAccessor httpContextAccessor)
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
-            _orderRepository = orderRepository;
-            _productRepository = productRepository;
-            _httpContextAccessor = httpContextAccessor;
-        }
-        public IEnumerable<Order> GetAllOrdersAsync()
-        {
-            return  _orderRepository.GetAll();
+            return await _orderRepository.GetAllAsync();
         }
 
-        public Order GetOrderByIdAsync(int id)
+        public async Task<Order> GetOrderByIdAsync(int id)
         {
-            return  _orderRepository.GetById(id);
+            return await _orderRepository.GetByIdAsync(id);
         }
-        public void CreateOrder(CreateOrderDto createOrderDto)
+
+        public async Task CreateOrderAsync(CreateOrderDto createOrderDto)
         {
             var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
@@ -38,23 +33,27 @@ namespace shopBackend.Services.Implementations
                 OrderStatusId = (int)OrderStatusCategories.New,
                 OrderItems = new List<OrderItem>()
             };
-            foreach(var item in createOrderDto.OrderItems)
+
+            foreach (var item in createOrderDto.OrderItems)
             {
-                var product =  _productRepository.GetById(item.Id);
+                var product = await _productRepository.GetByIdAsync(item.ProductId);
                 if (product == null)
                 {
-                    throw new KeyNotFoundException($"Product with ID {item.Id} not found.");
+                    throw new KeyNotFoundException($"Product with ID {item.ProductId} not found.");
                 }
+
                 var orderItem = new OrderItem
                 {
                     ProductId = product.Id,
                     Quantity = item.Quantity,
-                    UnitPrice = product.Price,
+                    UnitPrice = product.Price
                 };
+
                 order.OrderItems.Add(orderItem);
             }
-            order.TotalAmount = order.OrderItems.Sum(x => (x.UnitPrice * x.Quantity));
-            _orderRepository.Add(order);
+
+            order.TotalAmount = order.OrderItems.Sum(x => x.UnitPrice * x.Quantity);
+            await _orderRepository.AddAsync(order);
         }
     }
 }

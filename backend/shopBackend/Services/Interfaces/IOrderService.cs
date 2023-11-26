@@ -5,8 +5,8 @@ namespace shopBackend.Services.Interfaces
 {
     public interface IOrderService
     {
-        public void CreateOrder(CreateOrderDto createOrderDto);
-        public Order GetOrderByIdAsync(int id);
-        public IEnumerable<Order> GetAllOrdersAsync();
+        Task CreateOrderAsync(CreateOrderDto createOrderDto);
+        Task<Order> GetOrderByIdAsync(int id);
+        Task<IEnumerable<Order>> GetAllOrdersAsync();
     }
 }

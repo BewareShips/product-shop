@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using shopBackend.Data;
 using shopBackend.Models;
 using shopBackend.Repository.Interfaces;
@@ -8,39 +9,47 @@ namespace shopBackend.Repository.Implementations
     public class ProductRepository : IProductRepository
     {
         private readonly ShopContext _context;
+
         public ProductRepository(ShopContext context)
         {
             _context = context;
         }
-        public IEnumerable<Product> GetAll()
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            return _context.Products.ToList();
-        }
-        public Product GetById(int id)
-        {
-            return _context.Products.Find(id);
+            return await _context.Products.ToListAsync();
         }
 
-      
-        public void Add(Product product)
+        public async Task<Product> GetByIdAsync(int id)
         {
-            _context.Products.Add(product);
-            _context.SaveChanges();
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                throw new KeyNotFoundException($"Product with ID {id} not found.");
+            }
+            return product;
         }
+
+        public async Task AddAsync(Product product)
+        {
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
+        }
+
         [Authorize(Policy = "AdminPolicy")]
-        public void Update(Product product)
+        public async Task UpdateAsync(Product product)
         {
             _context.Products.Update(product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
+
         [Authorize(Policy = "AdminPolicy")]
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var product = _context.Products.Find(id);
+            var product = await _context.Products.FindAsync(id);
             if (product != null)
             {
                 _context.Products.Remove(product);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 

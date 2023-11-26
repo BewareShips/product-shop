@@ -14,27 +14,29 @@ namespace shopBackend.Services.Implementations
         {
             _productRepository = productRepository;
         }
-        private readonly List<Category> _categories = new List<Category>
-    {
-        new Category { Id = 1, Name = "Biscuits" },
-        new Category { Id = 2, Name = "Cakes" },
-        new Category { Id = 3, Name = "Vegetables" },
-        new Category { Id = 4, Name = "Fruits" },
-        new Category { Id = 5, Name = "Dairy" },
-        new Category { Id = 6, Name = "Beverages" },
-        new Category { Id = 7, Name = "Snacks" },
-        new Category { Id = 8, Name = "Bakery" },
-        new Category { Id = 9, Name = "Meat" },
-        new Category { Id = 10, Name = "Seafood" }
-    };
 
-        public IEnumerable<CategoryDto> GetAllCategories()
+        private readonly List<Category> _categories = new List<Category>
+        {
+            new Category { Id = 1, Name = "Biscuits" },
+            new Category { Id = 2, Name = "Cakes" },
+            new Category { Id = 3, Name = "Vegetables" },
+            new Category { Id = 4, Name = "Fruits" },
+            new Category { Id = 5, Name = "Dairy" },
+            new Category { Id = 6, Name = "Beverages" },
+            new Category { Id = 7, Name = "Snacks" },
+            new Category { Id = 8, Name = "Bakery" },
+            new Category { Id = 9, Name = "Meat" },
+            new Category { Id = 10, Name = "Seafood" }
+        };
+
+        public async Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync()
         {
             return _categories.Select(c => new CategoryDto { Id = c.Id, Name = c.Name }).ToList();
         }
-        public IEnumerable<ProductDto> GetAllProducts()
+
+        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
         {
-            var products = _productRepository.GetAll();
+            var products = await _productRepository.GetAllAsync();
             return products.Select(product => new ProductDto
             {
                 Id = product.Id,
@@ -47,13 +49,9 @@ namespace shopBackend.Services.Implementations
             }).ToList();
         }
 
-        public ProductDto GetProductById(int id)
+        public async Task<ProductDto> GetProductByIdAsync(int id)
         {
-            var product = _productRepository.GetById(id);
-            if (product == null)
-            {
-                throw new KeyNotFoundException("Product not found.");
-            }
+            var product = await _productRepository.GetByIdAsync(id);
             return new ProductDto
             {
                 Id = product.Id,
@@ -65,12 +63,14 @@ namespace shopBackend.Services.Implementations
                 UnitType = product.UnitType
             };
         }
-        public void CreateProduct(ProductDto productDto, UserRole role)
+
+        public async Task CreateProductAsync(ProductDto productDto, UserRole role)
         {
             if (role != UserRole.Admin)
             {
                 throw new UnauthorizedAccessException("Only administrators can add products");
             }
+
             var product = new Product
             {
                 Name = productDto.Name,
@@ -81,25 +81,21 @@ namespace shopBackend.Services.Implementations
                 UnitType = productDto.UnitType
             };
             ValidateProduct(product);
-            if (_productRepository.GetAll().Any(p => p.Name == product.Name))
+            if ((await _productRepository.GetAllAsync()).Any(p => p.Name == product.Name))
             {
-                throw new Exception("A product with this name already exist");
+                throw new Exception("A product with this name already exists");
             }
-            _productRepository.Add(product);
+            await _productRepository.AddAsync(product);
         }
-        public void UpdateProduct(ProductDto productDto, UserRole role)
+
+        public async Task UpdateProductAsync(ProductDto productDto, UserRole role)
         {
             if (role != UserRole.Admin)
             {
                 throw new UnauthorizedAccessException("Only administrators can update products.");
             }
 
-            var existingProduct = _productRepository.GetById(productDto.Id);
-            if (existingProduct == null)
-            {
-                throw new KeyNotFoundException("Product not found.");
-            }
-
+            var existingProduct = await _productRepository.GetByIdAsync(productDto.Id);
             existingProduct.Name = productDto.Name;
             existingProduct.Description = productDto.Description;
             existingProduct.Price = productDto.Price;
@@ -108,27 +104,22 @@ namespace shopBackend.Services.Implementations
             existingProduct.UnitType = productDto.UnitType;
 
             ValidateProduct(existingProduct);
-            _productRepository.Update(existingProduct);
+            await _productRepository.UpdateAsync(existingProduct);
         }
 
-        public void DeleteProduct(int id, UserRole role)
+        public async Task DeleteProductAsync(int id, UserRole role)
         {
             if (role != UserRole.Admin)
             {
                 throw new UnauthorizedAccessException("Only administrators can delete products.");
             }
-            var existingProduct = GetProductById(id);
-            if (existingProduct == null)
-            {
-                throw new KeyNotFoundException("Product not found.");
-            }
-
-            _productRepository.Delete(id);
-
+            var existingProduct = await _productRepository.GetByIdAsync(id);
+            await _productRepository.DeleteAsync(id);
         }
-        public void UpdateStockQuantity(int productId, decimal quantity)
+
+        public async Task UpdateStockQuantityAsync(int productId, decimal quantity)
         {
-            var product = _productRepository.GetById(productId);
+            var product = await _productRepository.GetByIdAsync(productId);
             if (product == null)
             {
                 throw new KeyNotFoundException("Product not found.");
@@ -143,7 +134,7 @@ namespace shopBackend.Services.Implementations
                 product.StockQuantity += (int)Math.Round(quantity);
             }
 
-            _productRepository.Update(product);
+            await _productRepository.UpdateAsync(product);
         }
 
         private void ValidateProduct(Product product)
