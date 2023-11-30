@@ -1,0 +1,28 @@
+.inputContainer {
+  margin-bottom: 20px;
+  width:100%;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius:5px;
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  outline: none; 
+  border-color: #66afe9; 
+  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6); 
+}
+
+
+.input__error {
+  border-color: red;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}

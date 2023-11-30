@@ -1,14 +1,14 @@
 import React from 'react'
-import Product from './pages/Product/Product';
-import Category from './pages/Category/Category';
-import Cart from './pages/Cart/Cart';
-import Checkout from './pages/Checkout/Checkout';
-import Login from './pages/Auth/Login';
-import Register from './pages/Auth/Register';
-import Profile from './pages/Auth/Profile';
+import Product from './pages/product/Product';
+import Category from './pages/category/Category';
+import Cart from './pages/cart/Cart';
+import Checkout from './pages/checkout/Checkout';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import Profile from './pages/auth/Profile';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
-import NotFound from './components/common/notfound/NotFound';
-import Home from './pages/Home/Home';
+import NotFound from './pages/notfound/NotFound';
+import Home from './pages/home/Home';
 
 interface RouteType{
   path:string;
