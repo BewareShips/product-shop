@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './Button.module.css';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
   loading?:boolean;
@@ -7,14 +8,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
 const Button:React.FC<ButtonProps> = (props) => {
   const {
     children,
-
     loading = false,
     className,
     disabled,
     ...otherProps
   } = props;
   return (
-    <button className={`button ${className}`} disabled={disabled || loading} {...otherProps}>
+    <button className={`${styles.button} ${className}`} disabled={disabled || loading} {...otherProps}>
       {loading ? 'Loading...' : children}
     </button>
   )

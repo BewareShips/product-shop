@@ -14,7 +14,7 @@ const Input: React.FC<InputProps> = (props) => {
     ...otherprops
   } = props;
   return (
-    <div className={`styles.inputContainer} ${className}`}>
+    <div className={`${styles.inputContainer}} ${className}`}>
       <input
         className={`${styles.input } ${error ?  styles.input__error : ""}`}  {...otherprops}
       />

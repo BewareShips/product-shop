@@ -1,0 +1,41 @@
+.header{
+  background-color: #333;
+  color: white;
+  padding: 0px ;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+}
+
+.navList {
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  height:45px;
+  align-items:center;
+}
+
+.navItem {
+  margin: 0;
+  height:100%;
+}
+
+.navLink {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100%;
+  padding: 0px 15px;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navLink:hover {
+  background-color: #555;
+  color: #fff;
+}
