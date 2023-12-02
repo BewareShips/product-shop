@@ -9,8 +9,7 @@ const navItems = [
   { path: '/cart', label: 'Cart' },
   { path: '/checkout', label: 'Checkout' },
   { path: '/profile', label: 'Profile' },
-  { path: '/login', label: 'Login' },
-  { path: '/register', label: 'Register' },
+  { path: '/auth', label: 'Auth' },
 ];
 
 const Header:React.FC = () => {
