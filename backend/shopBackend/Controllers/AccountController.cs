@@ -26,8 +26,8 @@ namespace shopBackend.Controllers
                     model.Email,
                     model.Password,
                     model.Address,
-                    model.Role,
-                    model.PhoneNumber
+                    model.PhoneNumber,
+                    model.Role
                 );
                 return Ok("User registered successfully");
             }

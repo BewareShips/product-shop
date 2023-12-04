@@ -1,27 +1,35 @@
 import React from 'react';
 import styles from './Input.module.css';
 
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  error?: boolean;
-  errorMessage?: string;
+   errors?: string[];
+   isDirty:boolean;
 }
 
 const Input: React.FC<InputProps> = (props) => {
-  const {
-    error = false,
-    errorMessage = '',
-    className,
-    ...otherprops
-  } = props;
-  return (
-    <div className={`${styles.inputContainer}} ${className}`}>
-      <input
-        className={`${styles.input } ${error ?  styles.input__error : ""}`}  {...otherprops}
-      />
-      {error && <span className={styles.errorMessage}>{errorMessage}</span>}
-    </div>
+   const { errors, className,isDirty, ...otherprops } = props;
 
-  );
+   return (
+      <div className={`${styles.inputContainer} ${className}`}>
+         {isDirty && errors && errors.length > 0 && (
+            <div className={styles.errorMessages}>
+               {errors.map((err, index) => (
+                  <span key={index} className={styles.errorMessage}>
+                     {err}
+                     <br/>
+                  </span>
+               ))}
+            </div>
+         )}
+         <input
+            className={`${styles.input} ${
+              isDirty && errors && errors.length > 0 ? styles.input__error : ''
+            }`}
+            {...otherprops}
+         />
+      </div>
+   );
 };
 
-export default Input;
+export default React.memo(Input);

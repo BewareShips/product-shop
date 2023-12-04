@@ -23,7 +23,7 @@ const Auth: React.FC = () => {
               <>
                 <h2>Hello, Friend!</h2>
                 <p>Register with your personal details to use all of site features</p>
-                <Button onClick={toggleAuthMode} className={styles.ghost} id="signUp">
+                <Button type="button" onClick={toggleAuthMode} className={styles.ghost} id="signUp">
                   Register
                 </Button>
               </>
@@ -31,7 +31,7 @@ const Auth: React.FC = () => {
               <>
                 <h2>Welcome Back!</h2>
                 <p>If you already have an account, sign in here</p>
-                <Button onClick={toggleAuthMode} className={styles.ghost } id="signIn">
+                <Button type="button" onClick={toggleAuthMode} className={styles.ghost } id="signIn">
                   Log in
                 </Button>
               </>

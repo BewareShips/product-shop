@@ -41,7 +41,7 @@ namespace shopBackend.Services.Implementations
             }
         }
 
-        public async Task Register(string firstName, string lastName, string email, string password, string address, UserRole role, string phoneNumber = null)
+        public async Task Register(string firstName, string lastName, string email, string password, string address, string phoneNumber, UserRole role = UserRole.Customer)
         {
             var hashedPassword = _passwordHashService.HashPassword(password);
             var person = new Person
