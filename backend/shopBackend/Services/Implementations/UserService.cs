@@ -43,6 +43,12 @@ namespace shopBackend.Services.Implementations
 
         public async Task Register(string firstName, string lastName, string email, string password, string address, string phoneNumber, UserRole role = UserRole.Customer)
         {
+            var existingUser = await _userRepository.GetUserByEmailAsync(email);
+            if (existingUser != null)
+            {
+                throw new InvalidOperationException("User with this email already exists.");
+            }
+            
             var hashedPassword = _passwordHashService.HashPassword(password);
             var person = new Person
             {

@@ -16,7 +16,7 @@ namespace shopBackend.Controllers
             _userService = userService;
         }
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterDto model)
+        public async Task<IActionResult> Register( RegisterDto model)
         {
             try
             {
@@ -29,7 +29,12 @@ namespace shopBackend.Controllers
                     model.PhoneNumber,
                     model.Role
                 );
-                return Ok("User registered successfully");
+               var token = await _userService.Login(model.Email, model.Password);
+                return Ok(new
+                {
+                    token,
+                    message = "User registered successfully"
+                }) ;
             }
             catch (Exception ex)
             {

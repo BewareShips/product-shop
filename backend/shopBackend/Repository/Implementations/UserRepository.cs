@@ -22,7 +22,8 @@ namespace shopBackend.Repository.Implementations
 
         public async Task<Person?> GetUserByEmailAsync(string email)
         {
-            return await _context.Persons.SingleOrDefaultAsync(u => u.Email == email);
+            return await _context.Persons.Where(u => u.Email == email)
+                         .FirstOrDefaultAsync();
         }
     }
 }
