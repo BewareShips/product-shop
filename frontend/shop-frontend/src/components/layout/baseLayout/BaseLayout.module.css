@@ -7,7 +7,6 @@
 
 .mainContent{
   flex: 1;
-  padding-top: 45px; 
-  padding-bottom: 60px; 
+  padding:45px 150px 60px;
   width:100%;
 }
